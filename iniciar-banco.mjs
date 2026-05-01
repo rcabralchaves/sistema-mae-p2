@@ -5,7 +5,9 @@ import { fileURLToPath } from 'url'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const dbPath = join(__dirname, 'prisma', 'dev.db')
 
-const db = createClient({ url: `file:${dbPath}` })
+const url = process.env.DATABASE_URL || `file:${dbPath}`
+const authToken = process.env.DATABASE_AUTH_TOKEN
+const db = createClient(authToken ? { url, authToken } : { url })
 
 const SQL = `
 CREATE TABLE IF NOT EXISTS User (

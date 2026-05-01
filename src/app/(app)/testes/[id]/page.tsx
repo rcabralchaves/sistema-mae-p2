@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { TESTES } from '../aplicar/[tipo]/page'
 
+export const dynamic = 'force-dynamic'
+
 const NIVEL_STYLE: Record<string, { color: string; bg: string; desc: string }> = {
   Alto:     { color: '#dc2626', bg: '#fef2f2', desc: 'Indicativo forte — encaminhamento especializado recomendado' },
   Moderado: { color: '#d97706', bg: '#fffbeb', desc: 'Indicativo moderado — acompanhamento especializado recomendado' },

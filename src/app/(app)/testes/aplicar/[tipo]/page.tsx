@@ -2,6 +2,8 @@ import { prisma } from '@/lib/db'
 import { notFound } from 'next/navigation'
 import TesteForm from './TesteForm'
 
+export const dynamic = 'force-dynamic'
+
 export const TESTES: Record<string, {
   label: string
   color: string

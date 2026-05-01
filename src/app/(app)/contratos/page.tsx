@@ -1,6 +1,8 @@
 import { prisma } from '@/lib/db'
 import Link from 'next/link'
 
+export const dynamic = 'force-dynamic'
+
 export default async function ContratosPage() {
   const contratos = await prisma.contrato.findMany({
     orderBy: { createdAt: 'desc' },

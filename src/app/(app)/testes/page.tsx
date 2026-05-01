@@ -2,6 +2,8 @@ import { prisma } from '@/lib/db'
 import Link from 'next/link'
 import DeleteButton from '@/components/DeleteButton'
 
+export const dynamic = 'force-dynamic'
+
 const TIPO_META: Record<string, { label: string; color: string; bg: string }> = {
   tdah:            { label: 'TDAH',                  color: '#d97706', bg: '#fffbeb' },
   autismo:         { label: 'TEA / Autismo',          color: '#7c3aed', bg: '#f5f3ff' },

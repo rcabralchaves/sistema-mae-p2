@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import FichaAluno from '@/components/FichaAluno'
 
+export const dynamic = 'force-dynamic'
+
 export default async function AlunoPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const aluno = await prisma.aluno.findUnique({
