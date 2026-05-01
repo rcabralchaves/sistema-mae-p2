@@ -20,7 +20,11 @@ function getTitle(pathname: string) {
   return 'Sistema'
 }
 
-export default function Topbar() {
+interface Props {
+  onMenuClick: () => void
+}
+
+export default function Topbar({ onMenuClick }: Props) {
   const pathname = usePathname()
   const title = getTitle(pathname)
   const today = new Date().toLocaleDateString('pt-BR', { weekday: 'short', day: 'numeric', month: 'short' })
@@ -33,16 +37,34 @@ export default function Topbar() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      paddingLeft: 28,
-      paddingRight: 24,
+      paddingLeft: 16,
+      paddingRight: 16,
       position: 'sticky',
       top: 0,
       zIndex: 30,
     }}>
-      <h1 style={{ fontSize: 16, fontWeight: 600, color: '#111827' }}>{title}</h1>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        {/* Botão hamburger - só aparece no mobile */}
+        <button
+          onClick={onMenuClick}
+          className="hamburger-btn"
+          style={{
+            display: 'none',
+            background: 'none', border: 'none',
+            cursor: 'pointer', padding: 4, color: '#374151',
+          }}
+        >
+          <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+        <h1 style={{ fontSize: 16, fontWeight: 600, color: '#111827' }}>{title}</h1>
+      </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-        <span style={{ fontSize: 12, color: '#9ca3af' }}>{today}</span>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <span className="topbar-date" style={{ fontSize: 12, color: '#9ca3af' }}>{today}</span>
         <div style={{
           display: 'flex', alignItems: 'center', gap: 8,
           padding: '5px 10px', borderRadius: 20,
@@ -57,6 +79,13 @@ export default function Topbar() {
           <span style={{ fontSize: 13, fontWeight: 500, color: '#374151' }}>Admin</span>
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 767px) {
+          .hamburger-btn { display: flex !important; }
+          .topbar-date { display: none; }
+        }
+      `}</style>
     </header>
   )
 }

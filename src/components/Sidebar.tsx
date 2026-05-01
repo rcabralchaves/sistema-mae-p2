@@ -32,80 +32,111 @@ const NAV = [
   },
 ]
 
-export default function Sidebar() {
+interface Props {
+  isOpen: boolean
+  onClose: () => void
+}
+
+export default function Sidebar({ isOpen, onClose }: Props) {
   const pathname = usePathname()
 
   return (
-    <aside style={{
-      position: 'fixed', top: 0, left: 0, height: '100vh', width: 240,
-      background: '#0f172a', display: 'flex', flexDirection: 'column',
-      borderRight: '1px solid #1e293b', zIndex: 50,
-    }}>
-      {/* Logo */}
-      <div style={{ padding: '20px 20px 16px', borderBottom: '1px solid #1e293b' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{
-            width: 32, height: 32, borderRadius: 8, background: '#3b82f6',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 14, fontWeight: 700, color: '#fff', flexShrink: 0,
-          }}>P</div>
-          <div>
-            <div style={{ color: '#f1f5f9', fontWeight: 600, fontSize: 14, lineHeight: 1.2 }}>Psicopedagogia</div>
-            <div style={{ color: '#64748b', fontSize: 11, marginTop: 1 }}>Sistema de Gestão</div>
+    <>
+      <aside style={{
+        position: 'fixed', top: 0, left: 0, height: '100vh', width: 240,
+        background: '#0f172a', display: 'flex', flexDirection: 'column',
+        borderRight: '1px solid #1e293b', zIndex: 50,
+        transition: 'transform 0.25s ease',
+      }}
+        className={isOpen ? 'sidebar sidebar-open' : 'sidebar'}
+      >
+        {/* Logo + botão fechar no mobile */}
+        <div style={{ padding: '20px 20px 16px', borderBottom: '1px solid #1e293b', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{
+              width: 32, height: 32, borderRadius: 8, background: '#3b82f6',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: 14, fontWeight: 700, color: '#fff', flexShrink: 0,
+            }}>P</div>
+            <div>
+              <div style={{ color: '#f1f5f9', fontWeight: 600, fontSize: 14, lineHeight: 1.2 }}>Psicopedagogia</div>
+              <div style={{ color: '#64748b', fontSize: 11, marginTop: 1 }}>Sistema de Gestão</div>
+            </div>
+          </div>
+          {/* Botão X - só aparece no mobile */}
+          <button
+            onClick={onClose}
+            className="sidebar-close-btn"
+            style={{
+              display: 'none', background: 'none', border: 'none',
+              color: '#94a3b8', cursor: 'pointer', padding: 4,
+            }}
+          >
+            <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Nav */}
+        <nav style={{ flex: 1, overflowY: 'auto', padding: '12px 10px' }}>
+          {NAV.map((group, gi) => (
+            <div key={gi} style={{ marginBottom: 8 }}>
+              {group.section && (
+                <div style={{ padding: '8px 10px 4px', fontSize: 10, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#475569' }}>
+                  {group.section}
+                </div>
+              )}
+              {group.items.map(item => {
+                const active = pathname === item.href || pathname.startsWith(item.href + '/')
+                return (
+                  <Link key={item.href} href={item.href} onClick={onClose} style={{
+                    display: 'flex', alignItems: 'center', gap: 10,
+                    padding: '8px 10px', borderRadius: 7, marginBottom: 1,
+                    background: active ? '#1e3a5f' : 'transparent',
+                    color: active ? '#93c5fd' : '#94a3b8',
+                    fontWeight: active ? 500 : 400,
+                    fontSize: 13,
+                    transition: 'background 0.15s, color 0.15s',
+                  }}>
+                    <span style={{ width: 18, height: 18, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: active ? '#60a5fa' : '#64748b' }}>
+                      {item.icon}
+                    </span>
+                    {item.label}
+                  </Link>
+                )
+              })}
+            </div>
+          ))}
+        </nav>
+
+        {/* Footer */}
+        <div style={{ padding: '12px 16px', borderTop: '1px solid #1e293b' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{
+              width: 30, height: 30, borderRadius: '50%', background: '#1e3a5f',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: '#60a5fa', fontSize: 12, fontWeight: 600, flexShrink: 0,
+            }}>A</div>
+            <div style={{ minWidth: 0 }}>
+              <div style={{ color: '#e2e8f0', fontSize: 13, fontWeight: 500 }}>Administrador</div>
+              <div style={{ color: '#475569', fontSize: 11 }}>Sistema ativo</div>
+            </div>
           </div>
         </div>
-      </div>
+      </aside>
 
-      {/* Nav */}
-      <nav style={{ flex: 1, overflowY: 'auto', padding: '12px 10px' }}>
-        {NAV.map((group, gi) => (
-          <div key={gi} style={{ marginBottom: 8 }}>
-            {group.section && (
-              <div style={{ padding: '8px 10px 4px', fontSize: 10, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#475569' }}>
-                {group.section}
-              </div>
-            )}
-            {group.items.map(item => {
-              const active = pathname === item.href || pathname.startsWith(item.href + '/')
-              return (
-                <Link key={item.href} href={item.href} style={{
-                  display: 'flex', alignItems: 'center', gap: 10,
-                  padding: '8px 10px', borderRadius: 7, marginBottom: 1,
-                  background: active ? '#1e3a5f' : 'transparent',
-                  color: active ? '#93c5fd' : '#94a3b8',
-                  fontWeight: active ? 500 : 400,
-                  fontSize: 13,
-                  transition: 'background 0.15s, color 0.15s',
-                }}
-                  onMouseEnter={e => { if (!active) { (e.currentTarget as HTMLElement).style.background = '#1e293b'; (e.currentTarget as HTMLElement).style.color = '#cbd5e1' } }}
-                  onMouseLeave={e => { if (!active) { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#94a3b8' } }}
-                >
-                  <span style={{ width: 18, height: 18, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: active ? '#60a5fa' : '#64748b' }}>
-                    {item.icon}
-                  </span>
-                  {item.label}
-                </Link>
-              )
-            })}
-          </div>
-        ))}
-      </nav>
-
-      {/* Footer */}
-      <div style={{ padding: '12px 16px', borderTop: '1px solid #1e293b' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{
-            width: 30, height: 30, borderRadius: '50%', background: '#1e3a5f',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color: '#60a5fa', fontSize: 12, fontWeight: 600, flexShrink: 0,
-          }}>A</div>
-          <div style={{ minWidth: 0 }}>
-            <div style={{ color: '#e2e8f0', fontSize: 13, fontWeight: 500 }}>Administrador</div>
-            <div style={{ color: '#475569', fontSize: 11 }}>Sistema ativo</div>
-          </div>
-        </div>
-      </div>
-    </aside>
+      <style>{`
+        @media (max-width: 767px) {
+          .sidebar { transform: translateX(-100%); }
+          .sidebar-open { transform: translateX(0) !important; }
+          .sidebar-close-btn { display: flex !important; }
+        }
+        @media (min-width: 768px) {
+          .sidebar { transform: translateX(0) !important; }
+        }
+      `}</style>
+    </>
   )
 }
 
