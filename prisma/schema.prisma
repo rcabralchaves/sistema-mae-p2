@@ -1,0 +1,129 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
+
+model Aluno {
+  id              String             @id @default(cuid())
+  nome            String
+  dataNascimento  String?
+  escola          String?
+  serie           String?
+  turma           String?
+  turno           String?
+  responsavel     String?
+  telefone        String?
+  email           String?
+  convenio        String?
+  observacoes     String?
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  sessoes         Sessao[]
+  contratos       Contrato[]
+  encaminhamentos Encaminhamento[]
+  relatorios      Relatorio[]
+  testes          TesteAvaliativo[]
+}
+
+model Paciente {
+  id              String             @id @default(cuid())
+  nome            String
+  dataNascimento  String?
+  escola          String?
+  serie           String?
+  responsavel     String?
+  telefone        String?
+  email           String?
+  convenio        String?
+  queixaPrincipal String?
+  observacoes     String?
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  sessoes         Sessao[]
+  contratos       Contrato[]
+  encaminhamentos Encaminhamento[]
+  relatorios      Relatorio[]
+  testes          TesteAvaliativo[]
+}
+
+model TesteAvaliativo {
+  id          String    @id @default(cuid())
+  tipo        String
+  titulo      String
+  respostas   String
+  pontuacao   Int?
+  nivel       String?
+  observacoes String?
+  alunoId     String?
+  pacienteId  String?
+  aluno       Aluno?    @relation(fields: [alunoId], references: [id], onDelete: Cascade)
+  paciente    Paciente? @relation(fields: [pacienteId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+}
+
+model Sessao {
+  id          String    @id @default(cuid())
+  data        String
+  presente    Boolean   @default(true)
+  justificada Boolean   @default(false)
+  observacoes String?
+  alunoId     String?
+  pacienteId  String?
+  aluno       Aluno?    @relation(fields: [alunoId], references: [id], onDelete: Cascade)
+  paciente    Paciente? @relation(fields: [pacienteId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+}
+
+model Contrato {
+  id         String    @id @default(cuid())
+  titulo     String
+  conteudo   String
+  dataInicio String?
+  dataFim    String?
+  valor      String?
+  alunoId    String?
+  pacienteId String?
+  aluno      Aluno?    @relation(fields: [alunoId], references: [id], onDelete: Cascade)
+  paciente   Paciente? @relation(fields: [pacienteId], references: [id], onDelete: Cascade)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model Encaminhamento {
+  id            String    @id @default(cuid())
+  profissional  String
+  especialidade String?
+  motivo        String?
+  observacoes   String?
+  data          String
+  alunoId       String?
+  pacienteId    String?
+  aluno         Aluno?    @relation(fields: [alunoId], references: [id], onDelete: Cascade)
+  paciente      Paciente? @relation(fields: [pacienteId], references: [id], onDelete: Cascade)
+  createdAt     DateTime  @default(now())
+}
+
+model Relatorio {
+  id         String    @id @default(cuid())
+  tipo       String
+  titulo     String
+  conteudo   String
+  alunoId    String?
+  pacienteId String?
+  aluno      Aluno?    @relation(fields: [alunoId], references: [id], onDelete: Cascade)
+  paciente   Paciente? @relation(fields: [pacienteId], references: [id], onDelete: Cascade)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
