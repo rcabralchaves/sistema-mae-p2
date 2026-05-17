@@ -131,8 +131,8 @@ export default function FichaAluno({ aluno, tipo }: { aluno: any; tipo: 'aluno' 
         {tab === 'sessoes'         && <TabSessoes sessoes={aluno.sessoes} entityId={aluno.id} idField={idField} cor={cor} />}
         {tab === 'testes'          && <TabTestes testes={aluno.testes || []} entityId={aluno.id} idField={idField} cor={cor} />}
         {tab === 'contratos'       && <TabContratos contratos={aluno.contratos} entityId={aluno.id} idField={idField} cor={cor} />}
-        {tab === 'encaminhamentos' && <TabEncaminhamentos encaminhamentos={aluno.encaminhamentos} entityId={aluno.id} idField={idField} cor={cor} />}
-        {tab === 'relatorios'      && <TabRelatorios relatorios={aluno.relatorios} entityId={aluno.id} idField={idField} cor={cor} />}
+        {tab === 'encaminhamentos' && <TabEncaminhamentos encaminhamentos={aluno.encaminhamentos} entityId={aluno.id} idField={idField} cor={cor} pessoa={aluno} tipoPessoa={tipo} />}
+        {tab === 'relatorios'      && <TabRelatorios relatorios={aluno.relatorios} entityId={aluno.id} idField={idField} cor={cor} pessoa={aluno} tipoPessoa={tipo} testes={aluno.testes || []} />}
       </div>
     </div>
   )
