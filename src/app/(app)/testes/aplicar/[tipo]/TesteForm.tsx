@@ -195,9 +195,9 @@ export default function TesteForm({ tipo, config, alunos, pacientes, preAlunoId 
             <span style={{ fontSize: 12, fontWeight: 600, color: '#374151', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Observações clínicas (opcional)</span>
           </div>
           <div style={{ padding: 16 }}>
-            <textarea rows={4} value={observacoes} onChange={e => setObs(e.target.value)}
+            <textarea rows={5} value={observacoes} onChange={e => { setObs(e.target.value); e.target.style.height = 'auto'; e.target.style.height = e.target.scrollHeight + 'px' }}
               placeholder="Registre observações comportamentais, contexto da avaliação, informações do responsável..."
-              style={{ ...iStyle, resize: 'vertical' }} />
+              style={{ ...iStyle, resize: 'none', minHeight: 110, overflow: 'hidden' }} />
           </div>
         </div>
 

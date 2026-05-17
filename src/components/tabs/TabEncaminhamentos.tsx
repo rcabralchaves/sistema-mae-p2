@@ -158,7 +158,7 @@ export default function TabEncaminhamentos({ encaminhamentos: initial, entityId,
             </div>
             <div style={{ gridColumn: 'span 2' }}>
               <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#6b7280', marginBottom: 5, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Observações clínicas</label>
-              <textarea rows={3} value={form.observacoes} onChange={e => setForm({ ...form, observacoes: e.target.value })} placeholder="Informações relevantes para o profissional..." style={{ ...iStyle, resize: 'vertical' }} />
+              <textarea rows={5} value={form.observacoes} onChange={e => { setForm({ ...form, observacoes: e.target.value }); e.target.style.height = 'auto'; e.target.style.height = e.target.scrollHeight + 'px' }} placeholder="Informações relevantes para o profissional..." style={{ ...iStyle, resize: 'none', minHeight: 110, overflow: 'hidden' }} />
             </div>
           </div>
           <div style={{ display: 'flex', gap: 8 }}>

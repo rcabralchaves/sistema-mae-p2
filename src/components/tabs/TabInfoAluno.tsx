@@ -39,7 +39,7 @@ export default function TabInfoAluno({ aluno, endpoint, cor }: { aluno: any; end
       </label>
       {editing ? (
         type === 'textarea' ? (
-          <textarea rows={3} value={form[field] || ''} onChange={e => set(field, e.target.value)} style={{ ...iStyle, resize: 'vertical' }} />
+          <textarea rows={5} value={form[field] || ''} onChange={e => { set(field, e.target.value); e.target.style.height = 'auto'; e.target.style.height = e.target.scrollHeight + 'px' }} style={{ ...iStyle, resize: 'none', minHeight: 100, overflow: 'hidden' }} />
         ) : type === 'select-turno' ? (
           <select value={form[field] || ''} onChange={e => set(field, e.target.value)} style={iStyle}>
             <option value="">—</option>
